@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ post.slug }} Detail{% endblock %}
+
+{% block content %}
+
+    <p class="text-success">{{ post.user.username }} - {{ post.updated|date:"j M Y" }}</p>
+    <hr>
+    <p>{{ post.body|linebreaks }}</p>
+
+{% endblock %}

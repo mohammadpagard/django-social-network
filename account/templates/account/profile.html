@@ -5,6 +5,7 @@
 
 {% block content %}
 
+    <!-- user profile -->
     <h2 class="text-center">{{ user.username }}</h2>
     <p>
         Email address: <span class="text-success">{{ user.email }}</span>
@@ -15,5 +16,12 @@
         Lastname: <span class="text-success">{{ user.last_name }}</span>
     </p>
     <p>Last login: <span class="text-success">{{ user.last_login }}</span></p>
+
+    <!-- posts -->
+    <div class="card">
+        {% for p in posts %}
+            <a href="{{ p.get_absolute_url }}" class="card-body">{{ p.body|truncatewords:8 }}</a>
+        {% endfor %}
+    </div>
 
 {% endblock %}
