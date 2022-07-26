@@ -4,7 +4,14 @@
 
 {% block content %}
 
-    <p class="text-success">{{ post.user.username }} - {{ post.updated|date:"j M Y" }}</p>
+    {% if request.user.id == post.user.id %}
+        <a href="{% url 'post:delete' post.id %}" class="btn btn-danger">Delete</a>
+        <a href="{% url 'post:update' post.id %}" class="btn btn-info">Update</a>
+    {% endif %}
+
+    <p class="text-success">
+        <a href="{% url 'account:user_profile' post.user.id %}">{{ post.user.username }}</a> - {{ post.updated|date:"j M Y" }}
+    </p>
     <hr>
     <p>{{ post.body|linebreaks }}</p>
 
