@@ -7,6 +7,7 @@
     {% if request.user.id == post.user.id %}
         <a href="{% url 'post:delete' post.id %}" class="btn btn-danger">Delete</a>
         <a href="{% url 'post:update' post.id %}" class="btn btn-info">Update</a>
+        <a href="{% url 'post:create' %}" class="btn btn-success">Create</a>
     {% endif %}
 
     <p class="text-success">

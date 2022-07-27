@@ -5,6 +5,10 @@
 
 {% block content %}
 
+    {% if request.user.id == user.id %}
+        <a href="{% url 'post:create' %}" class="btn btn-success">Create</a>
+    {% endif %}
+
     <!-- user profile -->
     <h2 class="text-center">{{ user.username }}</h2>
     <p>
