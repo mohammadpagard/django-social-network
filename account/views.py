@@ -27,7 +27,13 @@ class UserRegisterView(View):
         form = self.form_class(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
-            User.objects.create_user(cd['username'], cd['email'], cd['password1'])
+            User.objects.create_user(
+                cd['username'],
+                first_name=cd['first_name'],
+                last_name=cd['last_name'],
+                email=cd['email'],
+                password=cd['password1']
+            )
             messages.success(request, 'You registered successfully', 'success')
             return redirect('home:home')
 
@@ -74,6 +80,7 @@ class UserProfileView(LoginRequiredMixin, View):
         return render(request, 'account/profile.html', {'user': user, 'posts': posts})
 
 
+# Forgot password reset
 class UserPasswordResetView(auth_views.PasswordResetView):
     template_name = 'account/password_reset_form.html'
     success_url = reverse_lazy('account:password_reset_done')

@@ -21,8 +21,6 @@
             Name: <span class="text-success">{{ user.first_name }}</span>
         {% elif not user.first_name %}
             Name: <span class="text-success">{{ user.last_name }}</span>
-        {% else %}
-            Name: <span class="text-danger">Have not set name</span>
         {% endif %}
     </p>
     <p>Last login: <span class="text-success">{{ user.last_login }}</span></p>
