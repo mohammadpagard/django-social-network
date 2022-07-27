@@ -7,7 +7,7 @@
 
     <div class="card">
         {% for p in posts %}
-            <a href="{{ p.get_absolute_url }}" class="card-body">{{ p.body|truncatewords:8 }}</a>
+            <a href="{{ p.get_absolute_url }}" class="card-body text-primary">{{ p.body|truncatewords:8 }}</a>
         {% endfor %}
     </div>
 
