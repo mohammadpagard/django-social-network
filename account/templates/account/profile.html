@@ -15,9 +15,15 @@
         Email address: <span class="text-success">{{ user.email }}</span>
     </p>
     <p>
-        Firstname: <span class="text-success">{{ user.first_name }}</span>
-        <br>
-        Lastname: <span class="text-success">{{ user.last_name }}</span>
+        {% if user.first_name and user.last_name %}
+            Name: <span class="text-success">{{ user.first_name }}</span> <span class="text-success">{{ user.last_name }}</span>
+        {% elif not user.last_name %}
+            Name: <span class="text-success">{{ user.first_name }}</span>
+        {% elif not user.first_name %}
+            Name: <span class="text-success">{{ user.last_name }}</span>
+        {% else %}
+            Name: <span class="text-danger">Have not set name</span>
+        {% endif %}
     </p>
     <p>Last login: <span class="text-success">{{ user.last_login }}</span></p>
 
