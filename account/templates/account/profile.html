@@ -5,11 +5,22 @@
 
 {% block content %}
 
+    <!-- BTN post create -->
     {% if request.user.id == user.id %}
         <a href="{% url 'post:create' %}" class="btn btn-success">Create</a>
     {% endif %}
+    <!-- /BTN post create -->
 
-    <!-- user profile -->
+    <!-- Following/Unfollow -->
+    {% if request.user.id != user.id and not is_following %}
+        <a href="{% url 'account:user_follow' user.id %}" class="btn btn-success">Follow</a>
+    {% elif request.user.id != user.id and is_following %}
+        <a href="{% url 'account:user_unfollow' user.id %}" class="btn btn-danger">Unfollow</a>
+    {% endif %}
+    <!-- /Following/Unfollow -->
+
+
+    <!-- User profile -->
     <h2 class="text-center">{{ user.username }}</h2>
     <p>
         Email address: <span class="text-success">{{ user.email }}</span>
@@ -24,12 +35,15 @@
         {% endif %}
     </p>
     <p>Last login: <span class="text-success">{{ user.last_login }}</span></p>
+    <!-- /User profile -->
 
-    <!-- posts -->
+
+    <!-- User posts -->
     <div class="card">
         {% for p in posts %}
             <a href="{{ p.get_absolute_url }}" class="card-body">{{ p.body|truncatewords:8 }}</a>
         {% endfor %}
     </div>
+    <!-- /User posts -->
 
 {% endblock %}
