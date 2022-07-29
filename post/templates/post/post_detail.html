@@ -16,4 +16,55 @@
     <hr>
     <p>{{ post.body|linebreaks }}</p>
 
+    <hr>
+
+    <h3 class="text text-primary">Comments</h3>
+
+    {% if request.user.is_authenticated %}
+        <form action="" method="post" novalidate>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Send" class="btn btn-success">
+        </form>
+    {% else %}
+        <p class="alert alert-danger">Only logged in users can comment.</p>
+    {% endif %}
+    <hr>
+    <!-- Comments -->
+    <h6>{{ comment.count }} comments</h6>
+        {% for c in comment %}
+            <div class="card bg-dark text-light">
+                <p class="card-header">{{ c.user }} |
+                    <span class="text-primary">{{ c.created|timesince }}</span>
+                </p>
+                <p class="card-body">{{ c.body }}</p>
+
+                <!-- Comment reply -->
+                {% if request.user.is_authenticated %}
+                    <form action="{% url 'post:reply_comment' post.id c.id %}" method="post" novalidate>
+                        {% csrf_token %}
+                        {{ reply_form.as_p }}
+                        <input type="submit" value="Reply" class="btn btn-success">
+                    </form>
+                {% endif %}
+
+                {% with replies='c.rcomments.all' %}
+                    {% for r in c.rcomment.all %}
+                            <p class="bg-primary p-2 m-3" style="border-radius: 5px;">
+                                {{ r.user }}: <br> 
+                                {{ r.body }}
+                            </p>
+                    {% endfor %}
+                {% endwith %}
+                <!-- /Comment reply -->
+
+            </div>
+            <br>
+        {% empty %}
+            <div class="card bg-dark text-light">
+                <h5 class="card-header">Don't have comment.</h5>
+            </div>
+        {% endfor %}
+    <!-- /Comments -->
+
 {% endblock %}
