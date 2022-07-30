@@ -15,7 +15,11 @@
     </p>
     <hr>
     <p>{{ post.body|linebreaks }}</p>
-
+    <!-- Like btn & user can like or not & validation for likes -->
+    {% if request.user.is_authenticated %}
+        <a href="{% url 'post:post_like' post.id %} " 
+        class="{% if user_like %}disabled{% endif %} btn btn-danger col-md-3">Like <span>{{ post.likes_count }}</span></a>
+    {% endif %}
     <hr>
 
     <h3 class="text text-primary">Comments</h3>

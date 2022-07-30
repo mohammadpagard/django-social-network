@@ -19,6 +19,16 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('post:detail', args=(self.id, self.slug))
 
+    def likes_count(self):
+        return self.plike.count()
+
+    # validation for like
+    def user_like(self, user):
+        user_like = user.ulike.filter(post=self)
+        if user_like.exists():
+            return True
+        return False
+
 
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ucomment')
@@ -30,3 +40,12 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"{self.user} - {self.post}"
+
+
+class Like(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ulike')
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='plike')
+
+    def __str__(self):
+        return f"{self.user} liked {self.post.slug}"
+    
