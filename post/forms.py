@@ -33,3 +33,7 @@ class CommentReplyForm(forms.ModelForm):
                 'class': 'form-control p-4'
             }
         )}
+
+
+class PostSearchForm(forms.Form):
+    search = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))

@@ -3,15 +3,15 @@ from django.views import View
 from .models import Post, Comment, Like
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import PostCreateUpdateForm, CommentCreateForm, CommentReplyForm
+from . import forms
 from django.utils.text import slugify
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
 
 class PostDetailView(View):
-    form_class = CommentCreateForm
-    form_class_reply = CommentReplyForm
+    form_class = forms.CommentCreateForm
+    form_class_reply = forms.CommentReplyForm
 
     def setup(self, request, *args, **kwargs):
         self.post_instance = get_object_or_404(Post, pk=kwargs['post_id'], slug=kwargs['post_slug'])
@@ -56,7 +56,7 @@ class PostDeleteView(LoginRequiredMixin, View):
 
 
 class PostUpdateView(LoginRequiredMixin, View):
-    form_class = PostCreateUpdateForm
+    form_class = forms.PostCreateUpdateForm
 
     def setup(self, request, *args, **kwargs):
         self.post_instance = get_object_or_404(Post, pk=kwargs['post_id'])
@@ -86,7 +86,7 @@ class PostUpdateView(LoginRequiredMixin, View):
 
 
 class PostCreateView(LoginRequiredMixin, View):
-    form_class = PostCreateUpdateForm
+    form_class = forms.PostCreateUpdateForm
 
     def get(self, request, *args, **kwargs):
         form = self.form_class
@@ -104,7 +104,7 @@ class PostCreateView(LoginRequiredMixin, View):
 
 
 class PostReplyView(LoginRequiredMixin, View):
-    form_class = CommentReplyForm
+    form_class = forms.CommentReplyForm
 
     def post(self, request, *args, **kwargs):
         post = get_object_or_404(Post, id=kwargs['post_id'])
