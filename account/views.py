@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
-from .forms import UserRegistrationForm, UserLoginForm
+from . import forms
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -11,7 +11,7 @@ from .models import Relation
 
 
 class UserRegisterView(View):
-    form_class = UserRegistrationForm
+    form_class = forms.UserRegistrationForm
     template_name = 'account/register.html'
 
     def dispatch(self, request, *args, **kwargs):
@@ -41,7 +41,7 @@ class UserRegisterView(View):
 
 
 class UserLoginView(View):
-    form_class = UserLoginForm
+    form_class = forms.UserLoginForm
     template_name = 'account/login.html'
 
     def setup(self, request, *args, **kwargs):
@@ -92,6 +92,40 @@ class UserProfileView(LoginRequiredMixin, View):
             'posts': posts,
             'is_following': is_following
         })
+
+
+class UserEditProfileView(LoginRequiredMixin, View):
+    form_class = forms.UserEditProfileForm
+    
+    def get(self, request):
+        form = self.form_class(
+            instance=request.user.profile,
+            initial={
+                'email': request.user.email,
+                'first_name': request.user.first_name,
+                'last_name': request.user.last_name
+            }
+        )
+        return render(request, 'account/edit_profile.html', {'form': form})
+    
+    def post(self, request):
+        form = self.form_class(
+            request.POST,
+            instance=request.user.profile,
+            initial={
+                'first_name': request.user.first_name,
+                'last_name': request.user.last_name,
+                'email': request.user.email
+            }
+        )
+        if form.is_valid():
+            form.save()
+            request.user.email = form.cleaned_data['email']
+            request.user.first_name = form.cleaned_data['first_name']
+            request.user.last_name = form.cleaned_data['last_name']
+            request.user.save()
+            messages.success(request, "You're profile updated successfully", 'success')
+        return redirect('account:user_profile', request.user.id)
 
 
 # following

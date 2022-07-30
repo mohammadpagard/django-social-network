@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from .models import Profile
 from django.core.exceptions import ValidationError
 
 
@@ -37,3 +38,19 @@ class UserRegistrationForm(forms.Form):
 class UserLoginForm(forms.Form):
     username = forms.CharField(label='Username or Email', widget=forms.TextInput(attrs={'class': 'form-control'}))
     password = forms.CharField(widget=forms.PasswordInput({'class': 'form-control'}))
+
+
+class UserEditProfileForm(forms.ModelForm):
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
+
+
+    class Meta:
+        model = Profile
+        fields = ('age', 'bio')
+
+        widgets = {
+            'age': forms.NumberInput(attrs={'class': 'form-control'}),
+            'bio': forms.Textarea(attrs={'class': 'form-control'})
+            }

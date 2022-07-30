@@ -8,6 +8,7 @@
     <!-- BTN post create -->
     {% if request.user.id == user.id %}
         <a href="{% url 'post:create' %}" class="btn btn-success">Create</a>
+        <a href="{% url 'account:edit_profile' %}" class="btn btn-info">Edit profile</a>
     {% endif %}
     <!-- /BTN post create -->
 
@@ -35,6 +36,12 @@
         {% endif %}
     </p>
     <p>Last login: <span class="text-success">{{ user.last_login }}</span></p>
+    <p>Age: <span class="text-success">{{ user.profile.age }}</span></p>
+    <br>
+    Bio:
+    <div class="text-success">{{ user.profile.bio|linebreaks }}</div>
+    
+
     <!-- /User profile -->
 
 
