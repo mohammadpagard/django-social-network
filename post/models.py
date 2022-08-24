@@ -1,12 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
+# Third party app
+from ckeditor.fields import RichTextField
 
 
 class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
     title = models.CharField(max_length=150, default='post title')
-    body = models.TextField()
+    body = RichTextField()
     slug = models.SlugField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -49,4 +51,4 @@ class Like(models.Model):
 
     def __str__(self):
         return f"{self.user} liked {self.post.slug}"
-    
+

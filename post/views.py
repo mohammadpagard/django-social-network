@@ -1,12 +1,15 @@
+# Django packages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
-from .models import Post, Comment, Like
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from . import forms
-from django.utils.text import slugify
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.utils.text import slugify
+# Local apps
+from .models import Post, Comment, Like
+from . import forms
+
 
 
 class PostDetailView(View):
@@ -14,7 +17,8 @@ class PostDetailView(View):
     form_class_reply = forms.CommentReplyForm
 
     def setup(self, request, *args, **kwargs):
-        self.post_instance = get_object_or_404(Post, pk=kwargs['post_id'], slug=kwargs['post_slug'])
+        self.post_instance = get_object_or_404(Post, pk=kwargs['post_id'],
+                                                    slug=kwargs['post_slug'])
         return super().setup(request, *args, **kwargs)
 
     def get(self, request, *args, **kwargs):
@@ -39,7 +43,7 @@ class PostDetailView(View):
             new_comment = form.save(commit=False)
             new_comment.user = request.user
             new_comment.post = self.post_instance
-            new_comment.save()
+            new_comment.save()  
             messages.success(request, "You're comment has been successfully registered", 'success')
             return redirect('post:detail', self.post_instance.id, self.post_instance.slug)
 
@@ -55,6 +59,7 @@ class PostDeleteView(LoginRequiredMixin, View):
         return redirect('home:home')
 
 
+# Create and update posts
 class PostUpdateView(LoginRequiredMixin, View):
     form_class = forms.PostCreateUpdateForm
 

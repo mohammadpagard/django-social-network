@@ -1,17 +1,26 @@
-from cProfile import label
+# Django packages
 from django import forms
+# Third pary apps
+from ckeditor.widgets import CKEditorWidget
+# Local apps
 from .models import Post, Comment
 
 
 class PostCreateUpdateForm(forms.ModelForm):
+    body = forms.CharField(widget=CKEditorWidget())
+
     class Meta:
         model = Post
-        fields = ('body',)
+        fields = ('body', 'title')
 
-        widgets = {'body': forms.Textarea(
+        widgets = {'title': forms.TextInput(
             attrs={'class': 'form-control'}
         )}
 
+
+# bio = forms.CharField(widget=CKEditorWidget(
+#         attrs={'class': 'form-control'}
+#     ))
 
 class CommentCreateForm(forms.ModelForm):
     class Meta:

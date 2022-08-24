@@ -14,7 +14,8 @@
         <a href="{% url 'account:user_profile' post.user.id %}">{{ post.user.username }}</a> - {{ post.updated|date:"j M Y" }}
     </p>
     <hr>
-    <p>{{ post.body|linebreaks }}</p>
+    <h3>{{ post.title }}</h3>
+    <p>{{ post.body|safe }}</p>
     <!-- Like btn & user can like or not & validation for likes -->
     {% if request.user.is_authenticated %}
         <a href="{% url 'post:post_like' post.id %} " 

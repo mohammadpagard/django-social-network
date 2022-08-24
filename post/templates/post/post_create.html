@@ -7,7 +7,19 @@
     <form action="" method="post" novalidate>
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" class="btn btn-success" value="Create">
+        <input type="submit" id="submit" class="btn btn-success" value="Create">
     </form>
+
+
+    <!-- <script>
+        CKEDITOR.on('instanceCreated', function(event) {
+            let editor = event.editor;
+            editor.on('change', function() {
+                setTimeout(function () {
+                    document.getElementById("submit").click();
+                }, 2500);
+            });
+        });
+    </script> -->
 
 {% endblock %}
