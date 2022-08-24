@@ -48,7 +48,7 @@
     <!-- User posts -->
     <div class="card">
         {% for p in posts %}
-            <a href="{{ p.get_absolute_url }}" class="card-body">{{ p.body|truncatewords:8|safe }}</a>
+            <a href="{{ p.get_absolute_url }}" class="card-body">{{ p.title }}</a>
         {% endfor %}
     </div>
     <!-- /User posts -->
