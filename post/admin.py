@@ -1,14 +1,16 @@
 from django.contrib import admin
 from .models import Post, Comment, Like
+from autosave.mixins import AdminAutoSaveMixin
 
 
 @admin.register(Post)
-class PostAdmin(admin.ModelAdmin):
+class PostAdmin(AdminAutoSaveMixin, admin.ModelAdmin):
     list_display = ('user', 'title', 'updated')
     search_fields = ('body', 'title')
     list_filter = ('updated', 'user')
     prepopulated_fields = {'slug': ('body',)}
     raw_id_fields = ('user',)
+    autosave_last_modified_field = "updated"
 
 
 @admin.register(Comment)
